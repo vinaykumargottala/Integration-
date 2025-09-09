@@ -1,0 +1,36 @@
+# 🔐 Helpdesk API Basic Authentication (Salesforce)
+
+## 📖 Overview
+This project integrates **Freshdesk Helpdesk API** with **Salesforce** using **Basic Authentication** to create tickets programmatically.
+
+### 🔄 Flow
+- User generates a **Freshdesk API Key**.  
+- The **API Key** and **Helpdesk Base URL** are stored securely in Salesforce **Custom Labels**.  
+- A **wrapper class** (`FreshdeskTicketWrapper`) holds the ticket data.  
+- An Apex service (`Ps_HelpDeskTicketUtils.cls`) makes a callout to the Freshdesk API.  
+- The API request uses **Basic Authentication** with `API_KEY:X`.  
+- Response is logged or handled as needed.
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Prerequisites
+- ✅ Salesforce Org (Developer or Sandbox)  
+- ✅ Freshdesk Account with **API Key**  
+- ✅ Remote Site Settings enabled in Salesforce for the Freshdesk API endpoint  
+
+### 2. Salesforce Configuration
+
+#### 🔹 Custom Labels
+- `Helpdesk_Username` → `<your API key>`  
+- `Helpdesk_URL` → `https://<yourdomain>.freshdesk.com/api/v2/tickets`
+
+#### 🔹 Apex Class
+- `Ps_HelpDeskTicketUtils.cls`  
+  - Contains `FreshdeskTicketWrapper` class to hold ticket details.  
+  - `createTickets` method handles the callout using Basic Authentication.  
+  - `cc_emails` can be included as a **List<String>** if needed.
+
+#### 🔹 Trigger / Handler (Optional)
+- `CaseTriggerHandler.cls` can be used to automatically send Cases to Freshdesk.
