@@ -1,0 +1,44 @@
+# 🌍 OpenCage Geocoding Integration (Salesforce)
+
+## 📖 Overview
+This project integrates **OpenCage Geocoding API** with **Salesforce** to automatically update **Account Billing** and **Shipping addresses** based on stored latitude and longitude values.
+
+### 🔄 Flow
+- User signs up on [OpenCage](https://opencagedata.com/) and generates an **API Key**.  
+- The **API Key** and **Base URL** are stored securely in Salesforce **Custom Labels**.  
+- A **custom geolocation field** (`Location__c`) is created on the **Account** object to store **Latitude** and **Longitude**.  
+- An Apex service (`OpencageGeoCoderService.cls`) makes a callout to the OpenCage API with these coordinates.  
+- The API response is **deserialized**, and the **Billing & Shipping Address** fields on the Account are updated.  
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Prerequisites
+- ✅ Salesforce Org (Developer or Sandbox)  
+- ✅ OpenCage API Key ([Sign up here](https://opencagedata.com/api))  
+- ✅ Remote Site Settings enabled in Salesforce for the OpenCage API endpoint  
+
+### 2. Salesforce Configuration
+
+#### 🔹 Custom Labels
+- `OPENCAGE_API_URL` → `https://api.opencagedata.com/geocode/v1/json`  
+- `OPENCAGE_API_KEY` → `<your-api-key>`  
+
+#### 🔹 Custom Field
+- **Field Name:** `Location__c`  
+- **Data Type:** Geolocation (Latitude/Longitude)  
+- **Object:** Account  
+
+#### 🔹 Apex Class
+- `OpencageGeoCoderService.cls`  
+  - Handles the API callout  
+  - Updates **Account Billing** and **Shipping addresses**  
+
+---
+
+## ▶️ Usage
+1. Add **Latitude and Longitude** values to the custom field `Location__c` on an Account.  
+2. Run the method:  
+   ```apex
+   OpencageGeoCoderService.reverseGeoCoding(accountId);
